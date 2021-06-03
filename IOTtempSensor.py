@@ -23,6 +23,8 @@ adc = ADCDevice()
 ########################################################################
 # Function: setup()
 # Purpose: to set up the adc's I2C connection
+#          it will check for one of two possible chips, then set the
+#          ADC to that chip
 # Arguments:
 #           none
 # Returns:
