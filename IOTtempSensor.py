@@ -92,14 +92,14 @@ def get_tempF():
     # calculate temperature (fahrenheit)
     tempF = ((tempK - 273.15 ) * 1.8) + 32    
     currentTemp = '{:.2f}'.format( tempF ) + ' F'
-    if(tempF > 85 or tempF < 68):
+    if(tempF > 85 or tempF < 64):
         time_check(currentTemp)
     return currentTemp
 
 ########################################################################
 # Function: get_tempC()
 # Purpose: Gets the current temperature in Fahrenheit, and if the
-#          temperature is greater than 29.5C or lower than 20C 
+#          temperature is greater than 29.5C or lower than 17.8C 
 #          then an email will be sent to the appropriate users
 # Arguments:
 #           none
@@ -111,7 +111,7 @@ def get_tempC():
     # calculate temperature (Celsius)
     tempC = tempK - 273.15        
     currentTemp = '{:.2f}'.format( tempC ) + ' C'
-    if(tempC > 29.5 or tempC < 20):
+    if(tempC > 29.5 or tempC < 17.8):
         time_check(currentTemp)
     return currentTemp
 
@@ -119,7 +119,7 @@ def get_tempC():
 # Function: get_tempK()
 # Purpose: Gets the current temperature in Fahrenheit, and if 
 #          the temperature is greater than 302.6K or lower 
-#          than 293K then an email will be sent to the 
+#          than 290.9K then an email will be sent to the 
 #          appropriate users
 # Arguments:
 #           none
@@ -129,7 +129,7 @@ def get_tempC():
 def get_tempK():
     tempK = calculate_K()
     currentTemp = '{:.2f}'.format( tempK ) + ' K'
-    if(tempK > 302.6 or tempK < 293):
+    if(tempK > 302.6 or tempK < 290.9):
         time_check(currentTemp)
     return currentTemp
 
