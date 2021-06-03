@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ########################################################################
 # Filename    : IOTtempSensor.py
-# Description : A thermometer that will alert via email when a
+# Description : A thermometer that will alert via email when a 
 #               temperature is too high or too low
 # Author      : Nathan Roth
 # modification: 06/03/2021
@@ -18,7 +18,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 # Define an ADCDevice class object
-adc = ADCDevice()
+adc = ADCDevice() 
 
 ########################################################################
 # Function: setup()
@@ -33,14 +33,14 @@ adc = ADCDevice()
 def setup():
     global adc
     # Detect the pcf8591.
-    if(adc.detectI2C(0x48)):
+    if(adc.detectI2C(0x48)): 
         adc = PCF8591()
     # Detect the ads7830
-    elif(adc.detectI2C(0x4b)):
+    elif(adc.detectI2C(0x4b)): 
         adc = ADS7830()
     else:
         print("No correct I2C address found, \n"
-        "Please use command 'i2cdetect -y 1' to check the I2C address!"
+        "Please use command 'i2cdetect -y 1' to check the I2C address!" 
         "\n"
         "Program Exit. \n")
         exit(-1)
@@ -76,11 +76,11 @@ def email(temp):
         server.login(user, password)
         server.sendmail(sender, receiver, msg.as_string())
         print("mail successfully sent")
-
+        
 ########################################################################
 # Function: get_tempF()
-# Purpose: Gets the current temperature in Fahrenheit, and if the
-#          temperature is greater than 85F or lower than 68F then
+# Purpose: Gets the current temperature in Fahrenheit, and if the 
+#          temperature is greater than 85F or lower than 68F then 
 #          an email will be sent to the appropriate users
 # Arguments:
 #           none
@@ -90,7 +90,7 @@ def email(temp):
 def get_tempF():
     tempK = calculate_K()
     # calculate temperature (fahrenheit)
-    tempF = ((tempK - 273.15 ) * 1.8) + 32
+    tempF = ((tempK - 273.15 ) * 1.8) + 32    
     currentTemp = '{:.2f}'.format( tempF ) + ' F'
     if(tempF > 85 or tempF < 68):
         time_check(currentTemp)
@@ -99,7 +99,7 @@ def get_tempF():
 ########################################################################
 # Function: get_tempC()
 # Purpose: Gets the current temperature in Fahrenheit, and if the
-#          temperature is greater than 29.5C or lower than 20C
+#          temperature is greater than 29.5C or lower than 20C 
 #          then an email will be sent to the appropriate users
 # Arguments:
 #           none
@@ -109,7 +109,7 @@ def get_tempF():
 def get_tempC():
     tempK = calculate_K()
     # calculate temperature (Celsius)
-    tempC = tempK - 273.15
+    tempC = tempK - 273.15        
     currentTemp = '{:.2f}'.format( tempC ) + ' C'
     if(tempC > 29.5 or tempC < 20):
         time_check(currentTemp)
@@ -117,9 +117,9 @@ def get_tempC():
 
 ########################################################################
 # Function: get_tempK()
-# Purpose: Gets the current temperature in Fahrenheit, and if
-#          the temperature is greater than 302.6K or lower
-#          than 293K then an email will be sent to the
+# Purpose: Gets the current temperature in Fahrenheit, and if 
+#          the temperature is greater than 302.6K or lower 
+#          than 293K then an email will be sent to the 
 #          appropriate users
 # Arguments:
 #           none
@@ -136,7 +136,7 @@ def get_tempK():
 ########################################################################
 # Function: time_check(temp)
 # Purpose: Checks if there has been an email sent out within
-#         15 seconds, then send the appropriate email
+#         10 seconds, then send the appropriate email
 # Arguments:
 #           CurrentTemp - the temperature that was detected
 # Returns:
@@ -144,7 +144,7 @@ def get_tempK():
 ########################################################################
 def time_check(currentTemp):
     tempTime = time.time()
-    if((tempTime - globals()['emailTime']) > 15):
+    if((tempTime - globals()['emailTime']) > 10):
         email(currentTemp)
         globals()['emailTime'] = tempTime
 
@@ -158,15 +158,15 @@ def time_check(currentTemp):
 ########################################################################
 def calculate_K():
     # read ADC value A0 pin
-    value = adc.analogRead(0)
-    # calculate voltage
-    voltage = value / 255.0 * 3.3
-    # calculate resistance value of thermistor
-    Rt = 10 * voltage / (3.3 - voltage)
+    value = adc.analogRead(0)    
+    # calculate voltage    
+    voltage = value / 255.0 * 3.3   
+    # calculate resistance value of thermistor    
+    Rt = 10 * voltage / (3.3 - voltage)    
     # calculate temperature (Kelvin)
-    tempK = 1/(1/(273.15 + 25) + math.log(Rt/10)/3950.0)
+    tempK = 1/(1/(273.15 + 25) + math.log(Rt/10)/3950.0) 
     return tempK
-
+    
 ########################################################################
 # Function: get_time_now()
 # Purpose: to get the current time in H:M:S format
@@ -181,7 +181,7 @@ def get_time_now():
 
 ########################################################################
 # Function: loop()
-# Purpose: the main polling loop that will get the current
+# Purpose: the main polling loop that will get the current 
 #          temp and time then print them to the LCD
 # Arguments:
 #           none
@@ -190,16 +190,16 @@ def get_time_now():
 ########################################################################
 def loop():
     # turn on LCD backlight
-    mcp.output(3,1)
-    # set number of LCD lines and columns
-    lcd.begin(16,2)
+    mcp.output(3,1)  
+    # set number of LCD lines and columns   
+    lcd.begin(16,2)     
     while(True):
         # set cursor position
-        lcd.setCursor(0,0)
+        lcd.setCursor(0,0)  
         # display CPU temperature
         lcd.message( 'Temp: ' + get_tempF()+'\n' )
         # display the time
-        lcd.message( '    '+get_time_now() )
+        lcd.message( '    '+get_time_now() )   
         sleep(0.1)
 
 ########################################################################
@@ -219,9 +219,9 @@ def destroy():
 # Initalization
 ########################################################################
 # I2C address of the PCF8574 chip.
-PCF8574_address = 0x27
+PCF8574_address = 0x27 
 # I2C address of the PCF8574A chip.
-PCF8574A_address = 0x3F
+PCF8574A_address = 0x3F  
 # Create PCF8574 GPIO adapter.
 try:
     mcp = PCF8574_GPIO(PCF8574_address)
@@ -234,7 +234,7 @@ except:
 # Create LCD, passing in MCP GPIO adapter.
 lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4,5,6,7], GPIO=mcp)
 global emailTime
-emailTime = time.time()
+emailTime = 0
 if __name__ == '__main__':
     print ('Program is starting ... ')
     setup()
